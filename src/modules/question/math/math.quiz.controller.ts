@@ -1,28 +1,65 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { MathQuestionService } from './math.question.service';
-import { Question, Quiz } from '../../../types/entities';
+import { Quiz } from '../../../domain/Quiz';
+import { DirectQuestion } from '../../../domain/Question';
 import { generateNumberId } from '../../../lib/id-generator';
 
 export class MathQuizController {
     constructor(private mathQuestionService: MathQuestionService) {}
 
-    getAddition = async (
-        request: FastifyRequest,
-        reply: FastifyReply
-    ): Promise<Quiz> => {
+    getAddition = (request: FastifyRequest, reply: FastifyReply) => {
         const id = generateNumberId();
         const length = 10;
-        const subject = 'Mathématiques';
-        const theme = 'Addition';
-        const questions: Question[] = Array.from({ length }, () =>
+        const questionType = 'direct';
+        const theme = 'addition';
+        const questions: DirectQuestion[] = Array.from({ length }, () =>
             this.mathQuestionService.generateAddition()
         );
 
-        return {
-            id,
-            questions,
-            subject,
-            theme,
-        };
+        const quiz = new Quiz(id, questionType, questions, theme);
+
+        reply.status(200).send(quiz);
+    };
+
+    getSubstraction = (request: FastifyRequest, reply: FastifyReply) => {
+        const id = generateNumberId();
+        const length = 10;
+        const questionType = 'direct';
+        const theme = 'substraction';
+        const questions: DirectQuestion[] = Array.from({ length }, () =>
+            this.mathQuestionService.generateSubtraction()
+        );
+
+        const quiz = new Quiz(id, questionType, questions, theme);
+
+        reply.status(200).send(quiz);
+    };
+
+    getMultiplication = (request: FastifyRequest, reply: FastifyReply) => {
+        const id = generateNumberId();
+        const length = 10;
+        const questionType = 'direct';
+        const theme = 'multiplication';
+        const questions: DirectQuestion[] = Array.from({ length }, () =>
+            this.mathQuestionService.generateMultiplication()
+        );
+
+        const quiz = new Quiz(id, questionType, questions, theme);
+
+        reply.status(200).send(quiz);
+    };
+
+    getRandomOperation = (request: FastifyRequest, reply: FastifyReply) => {
+        const id = generateNumberId();
+        const length = 10;
+        const questionType = 'direct';
+        const theme = 'random-operation';
+        const questions: DirectQuestion[] = Array.from({ length }, () =>
+            this.mathQuestionService.generateRandomOperation()
+        );
+
+        const quiz = new Quiz(id, questionType, questions, theme);
+
+        reply.status(200).send(quiz);
     };
 }

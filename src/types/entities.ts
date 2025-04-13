@@ -18,7 +18,7 @@ export type Score = {
     subject: Subject['name'];
     theme: Theme['name'];
     value: number;
-    createdAt: Date;
+    date: Date;
 }
 
 export type Quiz = {

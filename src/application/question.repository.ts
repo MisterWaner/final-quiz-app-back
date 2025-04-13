@@ -1,8 +1,8 @@
-import { Question } from '../types/entities';
+import { DirectQuestion } from "../domain/Question";
 
 export interface MathQuestionRepository {
-    generateAddition(): Question;
-    generateSubtraction(): Question;
-    generateMultiplication(): Question;
-    generateRandomOperation(): Question;
+    generateAddition(): DirectQuestion;
+    generateSubtraction(): DirectQuestion;
+    generateMultiplication(): DirectQuestion;
+    generateRandomOperation(): DirectQuestion;
 }

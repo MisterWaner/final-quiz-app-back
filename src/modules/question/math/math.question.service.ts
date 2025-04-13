@@ -1,62 +1,47 @@
 import { MathQuestionRepository } from '../../../application/question.repository';
-import { Question } from '../../../types/entities';
+import { DirectQuestion } from '../../../domain/Question';
 import { generateNumberId } from '../../../lib/id-generator';
 
 export class MathQuestionService implements MathQuestionRepository {
-    generateAddition(): Question {
+    generateAddition(): DirectQuestion {
         const id = generateNumberId();
         const number1 = Math.floor(Math.random() * 100);
         const number2 = Math.floor(Math.random() * 100);
-        const question = `Quel est le résultat de ${number1} + ${number2} ?`;
-        const correctAnswer = number1 + number2;
+        const questionText = `Quel est le résultat de ${number1} + ${number2} ?`;
+        const correctAnswer = (number1 + number2).toString();
 
-        return {
-            id,
-            question,
-            type: 'direct',
-            answer: correctAnswer,
-        };
+        return new DirectQuestion(id, questionText, correctAnswer);
     }
-    generateSubtraction(): Question {
+    generateSubtraction(): DirectQuestion {
         const id = generateNumberId();
         const number1 = Math.floor(Math.random() * 100);
         const number2 = Math.floor(Math.random() * 100);
-        let question: string;
-        let correctAnswer: number;
+        let questionText: string;
+        let correctAnswer: string;
 
         if (number1 > number2) {
-            question = `Quel est le résultat de ${number1} - ${number2} ?`;
-            correctAnswer = number1 - number2;
+            questionText = `Quel est le résultat de ${number1} - ${number2} ?`;
+            correctAnswer = (number1 - number2).toString();
         } else if (number1 < number2) {
-            question = `Quel est le résultat de ${number2} - ${number1} ?`;
-            correctAnswer = number2 - number1;
+            questionText = `Quel est le résultat de ${number2} - ${number1} ?`;
+            correctAnswer = (number2 - number1).toString();
         } else {
-            question = `Quel est le résultat de ${number1} - ${number2} ?`;
-            correctAnswer = 0;
+            questionText = `Quel est le résultat de ${number1} - ${number2} ?`;
+            correctAnswer = '0';
         }
 
-        return {
-            id,
-            question,
-            type: 'direct',
-            answer: correctAnswer,
-        };
+        return new DirectQuestion(id, questionText, correctAnswer);
     }
-    generateMultiplication(): Question {
+    generateMultiplication(): DirectQuestion {
         const id = generateNumberId();
         const number1 = Math.floor(Math.random() * 10);
         const number2 = Math.floor(Math.random() * 10);
         const question = `Quel est le résultat de ${number1} * ${number2} ?`;
-        const correctAnswer = number1 * number2;
+        const correctAnswer = (number1 * number2).toString();
 
-        return {
-            id,
-            question,
-            type: 'direct',
-            answer: correctAnswer,
-        };
+        return new DirectQuestion(id, question, correctAnswer);
     }
-    generateRandomOperation(): Question {
+    generateRandomOperation(): DirectQuestion {
         const operations = [
             this.generateAddition.bind(this),
             this.generateSubtraction.bind(this),
