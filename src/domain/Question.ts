@@ -22,7 +22,7 @@ export class MultipleChoiceQuestion implements QuestionBase {
         public id: number,
         public questionText: string,
         public options: string[],
-        public correctAnswer: string
+        public correctAnswer: string | string[]
     ) {
         this.id = id;
         this.questionText = questionText;
