@@ -21,7 +21,7 @@ export class MultipleChoiceQuestion implements QuestionBase {
     constructor(
         public id: number,
         public questionText: string,
-        public options: string[],
+        public options: string[] ,
         public correctAnswer: string | string[]
     ) {
         this.id = id;

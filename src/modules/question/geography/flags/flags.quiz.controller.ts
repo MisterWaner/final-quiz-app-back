@@ -1,22 +1,34 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { CapitalsQuestionService } from './capitals.question.service';
+import { FlagsQuestionService } from './flags.question.service';
 import { Quiz } from '../../../../domain/Quiz';
 import { MultipleChoiceQuestion } from '../../../../domain/Question';
 import { generateNumberId } from '../../../../lib/id-generator';
 
-export class CapitalsQuizController {
-    constructor(private capitalsQuestionService: CapitalsQuestionService) {}
-    getEuropeanCapitals = async (
-        request: FastifyRequest,
-        reply: FastifyReply
-    ) => {
+export class FlagsQuizController {
+    constructor(private flagsQuestionService: FlagsQuestionService) {}
+    getEuropeanFlags = async (request: FastifyRequest, reply: FastifyReply) => {
         const id = generateNumberId();
         const questionType = 'multiple-choice';
         const length: number = 10;
-        const theme = 'european-capitals';
+        const theme = 'european-flags';
         const questions: MultipleChoiceQuestion[] = await Promise.all(
             Array.from({ length }, () =>
-                this.capitalsQuestionService.generateEuropeanCapitalsQuestion()
+                this.flagsQuestionService.generateEuropeanFlagsQuestion()
+            )
+        );
+        const quiz = new Quiz(id, questionType, questions, theme);
+
+        reply.status(200).send(quiz);
+    };
+
+    getAfricanFlags = async (request: FastifyRequest, reply: FastifyReply) => {
+        const id = generateNumberId();
+        const questionType = 'multiple-choice';
+        const length: number = 10;
+        const theme = 'african-flags';
+        const questions: MultipleChoiceQuestion[] = await Promise.all(
+            Array.from({ length }, () =>
+                this.flagsQuestionService.generateAfricanFlagsQuestion()
             )
         );
 
@@ -25,17 +37,14 @@ export class CapitalsQuizController {
         reply.status(200).send(quiz);
     };
 
-    getAfricanCapitals = async (
-        request: FastifyRequest,
-        reply: FastifyReply
-    ) => {
+    getAsianFlags = async (request: FastifyRequest, reply: FastifyReply) => {
         const id = generateNumberId();
         const questionType = 'multiple-choice';
         const length: number = 10;
-        const theme = 'african-capitals';
+        const theme = 'asian-flags';
         const questions: MultipleChoiceQuestion[] = await Promise.all(
             Array.from({ length }, () =>
-                this.capitalsQuestionService.generateAfricanCapitalsQuestion()
+                this.flagsQuestionService.generateAsianFlagsQuestion()
             )
         );
 
@@ -44,17 +53,14 @@ export class CapitalsQuizController {
         reply.status(200).send(quiz);
     };
 
-    getAsianCapitals = async (
-        request: FastifyRequest,
-        reply: FastifyReply
-    ) => {
+    getAmericanFlags = async (request: FastifyRequest, reply: FastifyReply) => {
         const id = generateNumberId();
         const questionType = 'multiple-choice';
         const length: number = 10;
-        const theme = 'asian-capitals';
+        const theme = 'american-flags';
         const questions: MultipleChoiceQuestion[] = await Promise.all(
             Array.from({ length }, () =>
-                this.capitalsQuestionService.generateAsianCapitalsQuestion()
+                this.flagsQuestionService.generateAmericanFlagsQuestion()
             )
         );
 
@@ -63,17 +69,14 @@ export class CapitalsQuizController {
         reply.status(200).send(quiz);
     };
 
-    getAmericanCapitals = async (
-        request: FastifyRequest,
-        reply: FastifyReply
-    ) => {
+    getOceanianFlags = async (request: FastifyRequest, reply: FastifyReply) => {
         const id = generateNumberId();
         const questionType = 'multiple-choice';
         const length: number = 10;
-        const theme = 'american-capitals';
+        const theme = 'oceanic-flags';
         const questions: MultipleChoiceQuestion[] = await Promise.all(
             Array.from({ length }, () =>
-                this.capitalsQuestionService.generateAmericanCapitalsQuestion()
+                this.flagsQuestionService.generateOceanianFlagsQuestion()
             )
         );
 
@@ -82,36 +85,14 @@ export class CapitalsQuizController {
         reply.status(200).send(quiz);
     };
 
-    getOceanianCapitals = async (
-        request: FastifyRequest,
-        reply: FastifyReply
-    ) => {
+    getRandomFlags = async (request: FastifyRequest, reply: FastifyReply) => {
         const id = generateNumberId();
         const questionType = 'multiple-choice';
         const length: number = 10;
-        const theme = 'oceanic-capitals';
+        const theme = 'random-flags';
         const questions: MultipleChoiceQuestion[] = await Promise.all(
             Array.from({ length }, () =>
-                this.capitalsQuestionService.generateOceanianCapitalsQuestion()
-            )
-        );
-
-        const quiz = new Quiz(id, questionType, questions, theme);
-
-        reply.status(200).send(quiz);
-    };
-
-    getRandomCapitals = async (
-        request: FastifyRequest,
-        reply: FastifyReply
-    ) => {
-        const id = generateNumberId();
-        const questionType = 'multiple-choice';
-        const length: number = 10;
-        const theme = 'random-capitals';
-        const questions: MultipleChoiceQuestion[] = await Promise.all(
-            Array.from({ length }, () =>
-                this.capitalsQuestionService.generateRandomCapitalsQuestion()
+                this.flagsQuestionService.generateRandomFlagsQuestion()
             )
         );
 

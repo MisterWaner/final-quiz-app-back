@@ -7,11 +7,20 @@ export interface MathQuestionRepository {
     generateRandomOperation(): DirectQuestion;
 };
 
-export interface GeoQuestionRepository {
+export interface GeoCapitalsQuestionRepository {
     generateEuropeanCapitalsQuestion(): Promise<MultipleChoiceQuestion>;
     generateAfricanCapitalsQuestion(): Promise<MultipleChoiceQuestion>;
     generateAsianCapitalsQuestion(): Promise<MultipleChoiceQuestion>;
     generateAmericanCapitalsQuestion(): Promise<MultipleChoiceQuestion>;
-    generateOceanicCapitalsQuestion(): Promise<MultipleChoiceQuestion>;
+    generateOceanianCapitalsQuestion(): Promise<MultipleChoiceQuestion>;
     generateRandomCapitalsQuestion(): Promise<MultipleChoiceQuestion>;
+}
+
+export interface GeoFlagsQuestionRepository {
+    generateEuropeanFlagsQuestion(): Promise<MultipleChoiceQuestion>;
+    generateAfricanFlagsQuestion(): Promise<MultipleChoiceQuestion>;
+    generateAsianFlagsQuestion(): Promise<MultipleChoiceQuestion>;
+    generateAmericanFlagsQuestion(): Promise<MultipleChoiceQuestion>;
+    generateOceanianFlagsQuestion(): Promise<MultipleChoiceQuestion>;
+    generateRandomFlagsQuestion(): Promise<MultipleChoiceQuestion>;
 }

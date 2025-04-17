@@ -35,9 +35,77 @@ export async function fetchEuropeanCountries(): Promise<Country[]> {
         .map((country: Country) => ({
             name: { common: country?.translations?.fra.common || '' },
             capital: country.capital,
-            flags: { svg: country.flags.svg, png: '' },
+            flags: { svg: country.flags.svg, png: country.flags.png },
             region: country.region,
         }));
 
     return europeanDatas;
+}
+
+export async function fetchAfricanCountries(): Promise<Country[]> {
+    const data = await fetchGeoData();
+
+    const africanDatas = data
+        .filter((country: Country) => {
+            return country.region === 'Africa';
+        })
+        .map((country: Country) => ({
+            name: { common: country?.translations?.fra.common || '' },
+            capital: country.capital,
+            flags: { svg: country.flags.svg, png: country.flags.png },
+            region: country.region,
+        }));
+
+    return africanDatas;
+}
+
+export async function fetchAsianCountries(): Promise<Country[]> {
+    const data = await fetchGeoData();
+
+    const asianDatas = data
+        .filter((country: Country) => {
+            return country.region === 'Asia';
+        })
+        .map((country: Country) => ({
+            name: { common: country?.translations?.fra.common || '' },
+            capital: country.capital,
+            flags: { svg: country.flags.svg, png: country.flags.png },
+            region: country.region,
+        }));
+
+    return asianDatas;
+}
+
+export async function fetchAmericanCountries(): Promise<Country[]> {
+    const data = await fetchGeoData();
+
+    const americanDatas = data
+        .filter((country: Country) => {
+            return country.region === 'Americas';
+        })
+        .map((country: Country) => ({
+            name: { common: country?.translations?.fra.common || '' },
+            capital: country.capital,
+            flags: { svg: country.flags.svg, png: country.flags.png },
+            region: country.region,
+        }));
+
+    return americanDatas;
+}
+
+export async function fetchOceanianCountries(): Promise<Country[]> {
+    const data = await fetchGeoData();
+
+    const oceanianDatas = data
+        .filter((country: Country) => {
+            return country.region === 'Oceania';
+        })
+        .map((country: Country) => ({
+            name: { common: country?.translations?.fra.common || '' },
+            capital: country.capital,
+            flags: { svg: country.flags.svg, png: country.flags.png },
+            region: country.region,
+        }));
+
+    return oceanianDatas;
 }

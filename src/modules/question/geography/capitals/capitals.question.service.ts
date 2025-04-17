@@ -1,62 +1,121 @@
-import { GeoQuestionRepository } from '../../../../application/question.repository';
+import { GeoCapitalsQuestionRepository } from '../../../../application/question.repository';
 import { MultipleChoiceQuestion } from '../../../../domain/Question';
 import { generateNumberId } from '../../../../lib/id-generator';
 import {
     shuffleOptionsInMultipleChoiceQuestion,
-    getRandomInteger,
-} from '../../../../lib/generals';
-import { Country, fetchEuropeanCountries } from '../data';
+    getRandomItem,
+    generateMultipleChoiceQuestionOptions
+} from '../../../../lib/quiz-helpers';
+import { fetchEuropeanCountries, fetchAfricanCountries, fetchAsianCountries, fetchAmericanCountries, fetchOceanianCountries } from '../data';
 
-export class CapitalsQuestionService implements GeoQuestionRepository {
-    getRandomCountry(array: Country[]): Country {
-        const randomIndex = getRandomInteger(0, array.length - 1);
-        const selectedCountry = array[randomIndex];
-        return selectedCountry;
-    }
+export class CapitalsQuestionService implements GeoCapitalsQuestionRepository {
 
     async generateEuropeanCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
         const id = generateNumberId();
         const countriesData = await fetchEuropeanCountries();
-        const selectedCountry = this.getRandomCountry(countriesData);
+        const selectedCountry = getRandomItem(countriesData);
         const questionText = `Quelle est la capitale de ${selectedCountry.name.common}?`;
         const correctAnswer = selectedCountry.capital;
 
-        // Generate 3 wrong answers
-        const wrongAnswers = new Set<string | string[]>();
-        while (wrongAnswers.size < 3) {
-            const randomIndex = getRandomInteger(0, countriesData.length - 1);
-            const randomCapital = countriesData[randomIndex].capital;
-            if (randomCapital !== correctAnswer) {
-                wrongAnswers.add(randomCapital);
-            }
-        }
-
-        // Mixes the correct answer and the wrong answers
-        const options = Array.from(wrongAnswers)
+        
+        const options = generateMultipleChoiceQuestionOptions(countriesData.map(country => country.capital));
         options.push(correctAnswer);
         shuffleOptionsInMultipleChoiceQuestion(options);
 
         return new MultipleChoiceQuestion(
             id,
             questionText,
-            options as string[],
+            options.flat() as string[],
             correctAnswer 
         );
         
     }
-    generateAfricanCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
-        throw new Error('Method not implemented.');
+    async generateAfricanCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
+        const id = generateNumberId();
+        const countriesData = await fetchAfricanCountries();
+        const selectedCountry = getRandomItem(countriesData);
+        const questionText = `Quelle est la capitale de ${selectedCountry.name.common}?`;
+        const correctAnswer = selectedCountry.capital;
+
+        
+        const options = generateMultipleChoiceQuestionOptions(countriesData.map(country => country.capital));
+        options.push(correctAnswer);
+        shuffleOptionsInMultipleChoiceQuestion(options);
+
+        return new MultipleChoiceQuestion(
+            id,
+            questionText,
+            options.flat() as string[],
+            correctAnswer 
+        );
     }
-    generateAsianCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
-        throw new Error('Method not implemented.');
+    async generateAsianCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
+        const id = generateNumberId();
+        const countriesData = await fetchAsianCountries();
+        const selectedCountry = getRandomItem(countriesData);
+        const questionText = `Quelle est la capitale de ${selectedCountry.name.common}?`;
+        const correctAnswer = selectedCountry.capital;
+
+        
+        const options = generateMultipleChoiceQuestionOptions(countriesData.map(country => country.capital));
+        options.push(correctAnswer);
+        shuffleOptionsInMultipleChoiceQuestion(options);
+
+        return new MultipleChoiceQuestion(
+            id,
+            questionText,
+            options.flat() as string[],
+            correctAnswer 
+        );
     }
-    generateAmericanCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
-        throw new Error('Method not implemented.');
+    async generateAmericanCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
+        const id = generateNumberId();
+        const countriesData = await fetchAmericanCountries();
+        const selectedCountry = getRandomItem(countriesData);
+        const questionText = `Quelle est la capitale de ${selectedCountry.name.common}?`;
+        const correctAnswer = selectedCountry.capital;
+
+        
+        const options = generateMultipleChoiceQuestionOptions(countriesData.map(country => country.capital));
+        options.push(correctAnswer);
+        shuffleOptionsInMultipleChoiceQuestion(options);
+
+        return new MultipleChoiceQuestion(
+            id,
+            questionText,
+            options.flat() as string[],
+            correctAnswer 
+        );
     }
-    generateOceanicCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
-        throw new Error('Method not implemented.');
+    async generateOceanianCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
+        const id = generateNumberId();
+        const countriesData = await fetchOceanianCountries();
+        const selectedCountry = getRandomItem(countriesData);
+        const questionText = `Quelle est la capitale de ${selectedCountry.name.common}?`;
+        const correctAnswer = selectedCountry.capital;
+
+        
+        const options = generateMultipleChoiceQuestionOptions(countriesData.map(country => country.capital));
+        options.push(correctAnswer);
+        shuffleOptionsInMultipleChoiceQuestion(options);
+
+        return new MultipleChoiceQuestion(
+            id,
+            questionText,
+            options.flat() as string[],
+            correctAnswer 
+        );
     }
     generateRandomCapitalsQuestion(): Promise<MultipleChoiceQuestion> {
-        throw new Error('Method not implemented.');
+        const randomData = [
+            this.generateAfricanCapitalsQuestion.bind(this),
+            this.generateEuropeanCapitalsQuestion.bind(this),
+            this.generateAsianCapitalsQuestion.bind(this),
+            this.generateAmericanCapitalsQuestion.bind(this),
+            this.generateOceanianCapitalsQuestion.bind(this)
+        ]
+
+        const randomCapitals = randomData[Math.floor(Math.random() * randomData.length)];
+        return randomCapitals();
     }
 }
