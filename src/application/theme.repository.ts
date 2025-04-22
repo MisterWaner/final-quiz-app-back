@@ -1,0 +1,9 @@
+import { Theme } from '../domain/Theme';
+
+export interface ThemeRepository {
+    createTheme(theme: Theme): Promise<void>;
+    getThemes(): Promise<Theme[]>;
+    getThemeById(id: number): Promise<Theme>;
+    updateTheme(id: number, name: Theme['name']): Promise<void>;
+    deleteTheme(id: number): Promise<void>;
+}

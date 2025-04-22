@@ -1,5 +1,6 @@
 import fastifyApp from "./app";
 import { config } from "dotenv";
+import { init } from "./db/database";
 
 config();
 
@@ -11,4 +12,5 @@ fastifyApp.listen( { port: PORT}, function (err, address) {
         process.exit(1);
     }
     console.log(`Server listening on ${address}`);
+    init();
 });
