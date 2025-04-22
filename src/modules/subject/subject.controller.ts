@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { SubjectService } from './subject.service';
 import { Subject } from '../../domain/Subject';
+import { normalizedString } from '../../lib/general-helpers';
 
 export class SubjectController {
     constructor(private subjectService: SubjectService) {}
@@ -67,6 +68,7 @@ export class SubjectController {
         try {
             const { id } = request.params;
             const { name } = request.body as Subject;
+            const subjectPath = normalizedString(name);
             const subject = await this.subjectService.getSubjectById(id);
 
             if (!subject) {
@@ -74,7 +76,7 @@ export class SubjectController {
                 return;
             }
 
-            await this.subjectService.updateSubject(id, name);
+            await this.subjectService.updateSubject(id, name, subjectPath);
             reply.status(200).send('Subject updated');
         } catch (error) {
             reply.status(500).send(error);

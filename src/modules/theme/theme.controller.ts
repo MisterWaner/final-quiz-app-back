@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { ThemeService } from './theme.service';
 import { Theme } from '../../domain/Theme';
+import { normalizedString } from '../../lib/general-helpers';
 
 export class ThemeController {
     constructor(private themeService: ThemeService) {}
@@ -72,6 +73,7 @@ export class ThemeController {
         try {
             const { id } = request.params;
             const { name } = request.body as Theme;
+            const themePath = normalizedString(name);
             const theme = await this.themeService.getThemeById(id);
 
             if (!theme) {
@@ -79,7 +81,7 @@ export class ThemeController {
                 return;
             }
 
-            await this.themeService.updateTheme(id, name);
+            await this.themeService.updateTheme(id, name, themePath);
             reply.status(200).send('Theme updated');
         } catch (error) {
             reply.status(500).send(error);

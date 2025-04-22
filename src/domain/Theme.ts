@@ -4,7 +4,5 @@ export class Theme {
         public name: string,
         public themePath: string,
         public subjectId: number
-    ) {
-        this.themePath = name.toLocaleLowerCase().replace(/\s/g, '-');
-    }
+    ) {}
 }

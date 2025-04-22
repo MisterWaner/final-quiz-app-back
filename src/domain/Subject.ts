@@ -6,7 +6,5 @@ export class Subject {
         public name: string,
         public subjectPath: string,
         public themes: Theme[]
-    ) {
-        this.subjectPath = name.toLocaleLowerCase().replace(/\s/g, '-');
-    }
+    ) {}
 }

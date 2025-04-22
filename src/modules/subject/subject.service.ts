@@ -1,6 +1,7 @@
 import { Subject } from '../../domain/Subject';
 import { SubjectRepository } from '../../application/subject.repositiry';
 import { db } from '../../db/database';
+import { normalizedString } from '../../lib/general-helpers';
 
 type RawSubject = {
     subject_id: number;
@@ -11,8 +12,11 @@ type RawSubject = {
 
 export class SubjectService implements SubjectRepository {
     async createSubject(subject: Subject): Promise<void> {
-        const name = subject.name;
-        db.prepare('INSERT INTO subjects (name) VALUES (?)').run(name);
+        const { name } = subject;
+        const subjectPath = normalizedString(name);
+        db.prepare(
+            'INSERT INTO subjects (name, subjectPath) VALUES (?, ?)'
+        ).run(name, subjectPath);
     }
 
     async getSubjects(): Promise<Subject[]> {
@@ -35,12 +39,16 @@ export class SubjectService implements SubjectRepository {
         return subject;
     }
 
-    async updateSubject(id: number, name: Subject['name']): Promise<void> {
+    async updateSubject(id: number, name: Subject['name'], subjectPath: Subject['subjectPath']): Promise<void> {
         const subject = await this.getSubjectById(id);
-
+        
         if (!subject) throw new Error('No subject found');
 
-        db.prepare('UPDATE subjects SET name = ? WHERE id = ?').run(name, id);
+        db.prepare('UPDATE subjects SET name = ?, subjectPath = ? WHERE id = ?').run(
+            name,
+            subjectPath,
+            id
+        );
     }
 
     async deleteSubject(id: number): Promise<void> {

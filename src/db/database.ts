@@ -23,7 +23,7 @@ export function init() {
         CREATE TABLE IF NOT EXISTS subjects (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            subjectPath TEXT NOT NULL,
+            subjectPath TEXT NOT NULL
         );
 
         CREATE TABLE IF NOT EXISTS themes (
