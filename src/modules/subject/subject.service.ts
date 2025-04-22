@@ -58,6 +58,13 @@ export class SubjectService implements SubjectRepository {
         db.prepare('DELETE FROM subjects WHERE id = ?').run(id);
     }
 
+    async getSubjectPath(id: number): Promise<string> {
+        const subject = await this.getSubjectById(id);
+        if (!subject) throw new Error('No subject found');
+
+        return subject.subjectPath;
+    }
+
     async getSubjectsWithThemes(): Promise<Subject[]> {
         const subjects = db
             .prepare(
@@ -88,5 +95,10 @@ export class SubjectService implements SubjectRepository {
         }));
 
         return parsedSubjects;
+    }
+
+    async reset(): Promise<void> {
+        db.prepare('DELETE FROM subjects').run();
+        db.prepare(`DELETE FROM sqlite_sequence WHERE name = 'subjects'`).run();
     }
 }

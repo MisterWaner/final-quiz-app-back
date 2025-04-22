@@ -56,4 +56,9 @@ export class ThemeService implements ThemeRepository {
 
         db.prepare('DELETE FROM themes WHERE id = ?').run(id);
     }
+
+    async reset(): Promise<void> {
+        db.prepare('DELETE FROM themes').run();
+        db.prepare(`DELETE FROM sqlite_sequence WHERE name = 'themes'`).run();
+    }
 }

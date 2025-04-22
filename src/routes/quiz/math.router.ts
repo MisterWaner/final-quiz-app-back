@@ -7,13 +7,10 @@ const mathQuestionService = new MathQuestionService();
 const mathQuizController = new MathQuizController(mathQuestionService);
 
 export async function mathRouter(fastify: FastifyInstance) {
-    fastify.get<{ Reply: Quiz }>(
-        '/addition',
-        mathQuizController.getAddition
-    );
+    fastify.get<{ Reply: Quiz }>('/addition', mathQuizController.getAddition);
 
     fastify.get<{ Reply: Quiz }>(
-        '/substraction',
+        '/soustraction',
         mathQuizController.getSubstraction
     );
 
@@ -23,7 +20,7 @@ export async function mathRouter(fastify: FastifyInstance) {
     );
 
     fastify.get<{ Reply: Quiz }>(
-        '/random-operation',
+        '/calculs-aleatoires',
         mathQuizController.getRandomOperation
     );
 }
