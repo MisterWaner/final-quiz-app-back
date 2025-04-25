@@ -36,7 +36,7 @@ export class MathQuestionService implements MathQuestionRepository {
         const id = generateNumberId();
         const number1 = Math.floor(Math.random() * 10);
         const number2 = Math.floor(Math.random() * 10);
-        const question = `Quel est le résultat de ${number1} * ${number2} ?`;
+        const question = `Quel est le résultat de ${number1} x ${number2} ?`;
         const correctAnswer = (number1 * number2).toString();
 
         return new DirectQuestion(id, question, correctAnswer);
