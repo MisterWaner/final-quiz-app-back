@@ -22,12 +22,14 @@ export class MultipleChoiceQuestion implements QuestionBase {
         public id: number,
         public questionText: string,
         public options: string[] ,
-        public correctAnswer: string | string[]
+        public correctAnswer: string | string[],
+        public imageUrl?: string
     ) {
         this.id = id;
         this.questionText = questionText;
         this.options = options;
         this.correctAnswer = correctAnswer;
+        this.imageUrl = imageUrl;
     }
 }
 

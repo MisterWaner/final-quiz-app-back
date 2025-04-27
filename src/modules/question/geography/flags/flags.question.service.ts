@@ -19,11 +19,12 @@ export class FlagsQuestionService implements GeoFlagsQuestionRepository {
         const id = generateNumberId();
         const countriesData = await fetchEuropeanCountries();
         const selectedCountry = getRandomItem(countriesData);
-        const questionText = `Quel est le drapeau de ${selectedCountry.name.common}?`;
-        const correctAnswer = selectedCountry.flags.png;
+        const imageUrl = selectedCountry.flags.png;
+        const questionText = 'A quel pays appartient ce drapeau?';
+        const correctAnswer = selectedCountry.name.common;
 
         const options = generateMultipleChoiceQuestionOptions(
-            countriesData.map((country) => country.flags.png)
+            countriesData.map((country) => country.name.common)
         );
         options.push(correctAnswer);
         shuffleOptionsInMultipleChoiceQuestion(options);
@@ -32,18 +33,20 @@ export class FlagsQuestionService implements GeoFlagsQuestionRepository {
             id,
             questionText,
             options.flat() as string[],
-            correctAnswer
+            correctAnswer,
+            imageUrl
         );
     }
     async generateAfricanFlagsQuestion(): Promise<MultipleChoiceQuestion> {
         const id = generateNumberId();
         const countriesData = await fetchAfricanCountries();
         const selectedCountry = getRandomItem(countriesData);
-        const questionText = `Quel est le drapeau de ${selectedCountry.name.common}?`;
-        const correctAnswer = selectedCountry.flags.png;
+        const imageUrl = selectedCountry.flags.png;
+        const questionText = 'A quel pays appartient ce drapeau?';
+        const correctAnswer = selectedCountry.name.common;
 
         const options = generateMultipleChoiceQuestionOptions(
-            countriesData.map((country) => country.flags.png)
+            countriesData.map((country) => country.name.common)
         );
         options.push(correctAnswer);
         shuffleOptionsInMultipleChoiceQuestion(options);
@@ -52,19 +55,22 @@ export class FlagsQuestionService implements GeoFlagsQuestionRepository {
             id,
             questionText,
             options.flat() as string[],
-            correctAnswer
+            correctAnswer,
+            imageUrl
         );
     }
     async generateAsianFlagsQuestion(): Promise<MultipleChoiceQuestion> {
         const id = generateNumberId();
         const countriesData = await fetchAsianCountries();
         const selectedCountry = getRandomItem(countriesData);
-        const questionText = `Quel est le drapeau de ${selectedCountry.name.common}?`;
-        const correctAnswer = selectedCountry.flags.png;
+        const imageUrl = selectedCountry.flags.png;
+        const questionText = 'A quel pays appartient ce drapeau?';
+        const correctAnswer = selectedCountry.name.common;
 
         const options = generateMultipleChoiceQuestionOptions(
-            countriesData.map((country) => country.flags.png)
+            countriesData.map((country) => country.name.common)
         );
+
         options.push(correctAnswer);
         shuffleOptionsInMultipleChoiceQuestion(options);
 
@@ -72,18 +78,20 @@ export class FlagsQuestionService implements GeoFlagsQuestionRepository {
             id,
             questionText,
             options.flat() as string[],
-            correctAnswer
+            correctAnswer,
+            imageUrl
         );
     }
     async generateAmericanFlagsQuestion(): Promise<MultipleChoiceQuestion> {
         const id = generateNumberId();
         const countriesData = await fetchAmericanCountries();
         const selectedCountry = getRandomItem(countriesData);
-        const questionText = `Quel est le drapeau de ${selectedCountry.name.common}?`;
-        const correctAnswer = selectedCountry.flags.png;
+        const imageUrl = selectedCountry.flags.png;
+        const questionText = 'A quel pays appartient ce drapeau?';
+        const correctAnswer = selectedCountry.name.common;
 
         const options = generateMultipleChoiceQuestionOptions(
-            countriesData.map((country) => country.flags.png)
+            countriesData.map((country) => country.name.common)
         );
         options.push(correctAnswer);
         shuffleOptionsInMultipleChoiceQuestion(options);
@@ -92,18 +100,20 @@ export class FlagsQuestionService implements GeoFlagsQuestionRepository {
             id,
             questionText,
             options.flat() as string[],
-            correctAnswer
+            correctAnswer,
+            imageUrl
         );
     }
     async generateOceanianFlagsQuestion(): Promise<MultipleChoiceQuestion> {
         const id = generateNumberId();
         const countriesData = await fetchOceanianCountries();
         const selectedCountry = getRandomItem(countriesData);
-        const questionText = `Quel est le drapeau de ${selectedCountry.name.common}?`;
-        const correctAnswer = selectedCountry.flags.png;
+        const imageUrl = selectedCountry.flags.png;
+        const questionText = 'A quel pays appartient ce drapeau?';
+        const correctAnswer = selectedCountry.name.common;
 
         const options = generateMultipleChoiceQuestionOptions(
-            countriesData.map((country) => country.flags.png)
+            countriesData.map((country) => country.name.common)
         );
         options.push(correctAnswer);
         shuffleOptionsInMultipleChoiceQuestion(options);
@@ -112,7 +122,8 @@ export class FlagsQuestionService implements GeoFlagsQuestionRepository {
             id,
             questionText,
             options.flat() as string[],
-            correctAnswer
+            correctAnswer,
+            imageUrl
         );
     }
     async generateRandomFlagsQuestion(): Promise<MultipleChoiceQuestion> {
