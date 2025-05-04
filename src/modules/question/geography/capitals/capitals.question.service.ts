@@ -6,13 +6,11 @@ import {
     getRandomItem,
     generateMultipleChoiceQuestionOptions,
 } from '../../../../lib/quiz-helpers';
-import {
-    fetchEuropeanCountries,
-    fetchAfricanCountries,
-    fetchAsianCountries,
-    fetchAmericanCountries,
-    fetchOceanianCountries,
-} from '../data';
+import { fetchEuropeanCountries } from '../europeanDatas';
+import { fetchAfricanCountries } from '../africanDatas';
+import { fetchAsianCountries } from '../asianDatas';
+import { fetchAmericanCountries } from '../americanDatas';
+import { fetchOceanianCountries } from '../oceanianDatas';
 
 export class CapitalsQuestionService implements GeoCapitalsQuestionRepository {
     async generateEuropeanCapitalsQuestion(): Promise<MultipleChoiceQuestion> {

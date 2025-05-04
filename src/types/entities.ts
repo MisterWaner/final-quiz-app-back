@@ -51,3 +51,20 @@ export type Question = {
     options?: string[];
     answer: string | number | boolean;
 }
+
+export type Country = {
+    name: {
+        common: string;
+    };
+    flags: {
+        png: string;
+        svg: string;
+    };
+    capital: string[];
+    translations?: {
+        fra: {
+            official: string;
+            common: string;
+        };
+    };
+};
