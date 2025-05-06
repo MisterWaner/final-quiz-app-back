@@ -1,0 +1,49 @@
+import { User } from '../../domain/User';
+import { UserRepository } from '../../application/user.repository';
+import { generateStringId } from '../../lib/id-generator';
+import { db } from '../../db/database';
+import { comparePassword, hashPassword } from '../../lib/auth-helpers';
+
+export class UserService implements UserRepository {
+    async createUser(username: string, password: string): Promise<void> {
+        const id = generateStringId();
+        const hashedPassword = await hashPassword(password);
+
+        db.prepare(
+            'INSERT INTO users (id, username, password) VALUES (?, ?, ?)'
+        ).run(id, username, hashedPassword);
+    }
+
+    async getUserById(id: string): Promise<User | null> {
+        const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id) as User;
+        return user;
+    }
+
+    async getUsers(): Promise<User[]> {
+        const users = db.prepare('SELECT * FROM users').all() as User[];
+        return users;
+    }
+
+    async updateUserUsername(id: string, username: string): Promise<void> {
+        const user = await this.getUserById(id);
+        if (!user) throw new Error('User not found');
+
+        db.prepare('UPDATE users SET username = ? WHERE id = ?').run(username, id);
+    }
+
+    async updateUserPassword(id: string, password: string): Promise<void> {
+        const user = this.getUserById(id);
+        if (!user) throw new Error('User not found');
+
+        const hashedPassword = await hashPassword(password);
+
+        db.prepare('UPDATE users SET password = ? WHERE id = ?').run(hashedPassword, id);
+    }
+
+    async deleteUser(id: string): Promise<void> {
+        const user = this.getUserById(id);
+        if (!user) throw new Error('User not found');
+
+        db.prepare('DELETE FROM users WHERE id = ?').run(id);
+    }
+}
