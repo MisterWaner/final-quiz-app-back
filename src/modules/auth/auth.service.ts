@@ -24,20 +24,20 @@ export class AuthService implements UserSessionRepository {
 
         return user;
     }
-    logoutUser(id: string): Promise<void> {
-        throw new Error('Method not implemented.');
-    }
 
     async createSession(userId: string): Promise<Session> {
         const id = generateStringId();
-        const now = new Date();
-        const expiresAt = new Date(now.getTime() + 1000 * 60 * 60 * 24); // 24 hours
+        const nowDate = new Date()
+        const expiresAtDate = new Date(nowDate.getTime() + 1000 * 60 * 60 * 24); // 24 hours
+
+        const now = nowDate.getTime();
+        const expiresAt = expiresAtDate.getTime();
 
         db.prepare(
             'INSERT INTO sessions (id, user_id, createdAt, expiresAt) VALUES (?, ?, ?, ?)'
-        ).run(id, userId, now, new Date(now.getTime() + 1000 * 60 * 60 * 24));
+        ).run(id, userId, now, expiresAt);
 
-        return new Session(id, userId, now, expiresAt);
+        return new Session(id, userId, nowDate, expiresAtDate);
     }
 
     async getSessionById(id: string): Promise<Session | null> {

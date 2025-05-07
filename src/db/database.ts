@@ -1,4 +1,6 @@
 import Database from 'better-sqlite3';
+import { Subject } from '../types/entities';
+import { Theme } from '../domain/Theme';
 
 export const db = new Database('quiz.db');
 
@@ -37,9 +39,14 @@ export function init() {
         CREATE TABLE IF NOT EXISTS sessions (
             id TEXT PRIMARY KEY,
             user_id TEXT NOT NULL,
-            createdAt TEXT NOT NULL,
-            expiresAt TEXT NOT NULL,
+            createdAt INTEGER NOT NULL,
+            expiresAt INTEGER NOT NULL,
             FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
         );
     `);
+}
+
+export function isDatabaseEmpty(): boolean {
+    const row = db.prepare('SELECT COUNT (*) AS count FROM subjects').get() as { count: number };
+    return row.count === 0;
 }

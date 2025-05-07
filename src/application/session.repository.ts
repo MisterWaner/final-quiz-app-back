@@ -6,5 +6,4 @@ export interface UserSessionRepository {
     getSessionById(id: string): Promise<Session | null>;
     deleteSession(id: string): Promise<void>;
     authenticateUser(username: string, password: string): Promise<User | null>;
-    logoutUser(id: string): Promise<void>;
 }

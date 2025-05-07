@@ -2,7 +2,6 @@ import { SubjectService } from '../modules/subject/subject.service';
 import { ThemeService } from '../modules/theme/theme.service';
 import { Subject } from '../domain/Subject';
 import { Theme } from '../domain/Theme';
-import { askForConfirmation } from '../lib/ask-for-confirmation';
 
 const subjectService = new SubjectService();
 const themeService = new ThemeService();
@@ -30,19 +29,7 @@ const subjectsWithThemes: Record<string, string[]> = {
     ],
 };
 
-async function seed() {
-    const confirm = await askForConfirmation(
-        '⚠️  Ceci va supprimer tous les sujets et thèmes. Continuer ? (y/N) '
-    );
-
-    if (!confirm) {
-        console.log('❌ Opération annulée.');
-        process.exit(0);
-    }
-
-    await themeService.reset();
-    await subjectService.reset();
-
+export async function seedDatabase() {
     for (const [subjectName, themes] of Object.entries(subjectsWithThemes)) {
         try {
             const subject: Subject = {
@@ -81,5 +68,3 @@ async function seed() {
 
     console.log('🌱 Base de données remplie avec succès.');
 }
-
-seed();
