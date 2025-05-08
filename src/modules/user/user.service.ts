@@ -5,15 +5,6 @@ import { db } from '../../db/database';
 import { hashPassword } from '../../lib/auth-helpers';
 
 export class UserService implements UserRepository {
-    async createUser(username: string, password: string): Promise<void> {
-        const id = generateStringId();
-        const hashedPassword = await hashPassword(password);
-
-        db.prepare(
-            'INSERT INTO users (id, username, password) VALUES (?, ?, ?)'
-        ).run(id, username, hashedPassword);
-    }
-
     async getUserById(id: string): Promise<User | null> {
         const user = db
             .prepare('SELECT * FROM users WHERE id = ?')

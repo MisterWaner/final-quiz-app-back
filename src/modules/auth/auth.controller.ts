@@ -1,10 +1,43 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { AuthService } from './auth.service';
+import { UserService } from '../user/user.service';
 import { User } from '../../domain/User';
 import { Session } from '../../domain/Session';
 
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private userService: UserService) {}
+    register = async(request: FastifyRequest, reply: FastifyReply) => {
+        try {
+            const { username, password, confirmPassword } =
+                request.body as User;
+
+            if (!username || !password || !confirmPassword) {
+                reply
+                    .status(400)
+                    .send(
+                        'Username, password and confirm password are required'
+                    );
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                reply.status(400).send('Passwords do not match');
+                return;
+            }
+
+            const users = await this.userService.getUsers();
+            const userExists = users.find((user) => user.username === username);
+            if (userExists) {
+                reply.status(409).send('this username is already taken');
+                return;
+            }
+
+            await this.authService.registerUser(username, password);
+            reply.status(201).send('User created');
+        } catch (error) {
+            reply.status(500).send(error);
+        }
+    }
 
     login = async (request: FastifyRequest, reply: FastifyReply) => {
         try {
@@ -15,7 +48,7 @@ export class AuthController {
             );
             if (!user) throw new Error('User not found');
 
-            const session = await this.authService.createSession(user.id);
+            const session: Session = await this.authService.createSession(user.id);
             reply
                 .setCookie('sessionId', session.id, {
                     path: '/',

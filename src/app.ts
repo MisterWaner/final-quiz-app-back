@@ -9,6 +9,7 @@ const fastifyApp = fastify({
 fastifyApp.register(fastifyCors, {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
 });
 fastifyApp.register(cookies);
 

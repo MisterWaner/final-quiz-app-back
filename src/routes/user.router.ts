@@ -8,7 +8,6 @@ const userController = new UserController(userService);
 
 export async function userRouter(fastify: FastifyInstance) {
     fastify.get<{ Reply: User[] }>('/', {}, userController.getUsers);
-    fastify.post<{ Body: User }>('/', {}, userController.createUser);
     fastify.get<{ Params: { id: string }; Reply: User }>(
         '/:id',
         {},

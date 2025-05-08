@@ -1,11 +1,20 @@
 import { User } from '../../domain/User';
 import { Session } from '../../domain/Session';
 import { db } from '../../db/database';
-import { UserSessionRepository } from '../../application/session.repository';
+import { AuthRepository } from '../../application/auth.repository';
 import { generateStringId } from '../../lib/id-generator';
-import { comparePassword } from '../../lib/auth-helpers';
+import { comparePassword, hashPassword } from '../../lib/auth-helpers';
 
-export class AuthService implements UserSessionRepository {
+export class AuthService implements AuthRepository {
+    async registerUser(username: string, password: string): Promise<void> {
+        const id = generateStringId();
+        const hashedPassword = await hashPassword(password);
+
+        db.prepare(
+            'INSERT INTO users (id, username, password) VALUES (?, ?, ?)'
+        ).run(id, username, hashedPassword);
+    }
+    
     async authenticateUser(
         username: string,
         password: string
@@ -27,7 +36,7 @@ export class AuthService implements UserSessionRepository {
 
     async createSession(userId: string): Promise<Session> {
         const id = generateStringId();
-        const nowDate = new Date()
+        const nowDate = new Date();
         const expiresAtDate = new Date(nowDate.getTime() + 1000 * 60 * 60 * 24); // 24 hours
 
         const now = nowDate.getTime();

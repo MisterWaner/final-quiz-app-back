@@ -1,11 +1,16 @@
 import { FastifyInstance } from 'fastify';
 import { AuthController } from '../modules/auth/auth.controller';
 import { AuthService } from '../modules/auth/auth.service';
+import { UserService } from '../modules/user/user.service';
 
 const authService = new AuthService();
-const authController = new AuthController(authService);
+const userService = new UserService();
+const authController = new AuthController(authService, userService);
 
 export async function authRouter(fastify: FastifyInstance) {
+    fastify.post<{
+        Body: { username: string; password: string; confirmPassword: string };
+    }>('/register', authController.register);
     fastify.post<{ Body: { username: string; password: string } }>(
         '/login',
         authController.login
